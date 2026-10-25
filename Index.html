@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Umufasha Rwanda</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 16px;
+      background: #f3f6f5;
+      color: #182b25;
+    }
+    h1 { color: #087443; }
+    #chat {
+      background: white;
+      padding: 14px;
+      border-radius: 12px;
+      min-height: 280px;
+      margin-bottom: 12px;
+    }
+    .msg {
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .bot { background: #e2f3e9; }
+    .user { background: #e7ecf7; text-align: right; }
+    input, button {
+      box-sizing: border-box;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+    input { width: 68%; border: 1px solid #aaa; }
+    button {
+      background: #087443;
+      color: white;
+      border: 0;
+      cursor: pointer;
+    }
+    a { color: #075fa8; }
+  </style>
+</head>
+<body>
+  <h1>Umufasha Rwanda 🇷🇼</h1>
+  <p>Muraho! Ndagufasha kubona amakuru yizewe.</p>
+
+  <div id="chat" aria-live="polite">
+    <div class="msg bot">
+      Andika ikibazo cyawe. Urugero:
+      • Amakuru ya buruse
+      • Serivisi za Leta
+      • Ubutekamutwe
+    </div>
+  </div>
+
+  <form id="form">
+    <input id="question" placeholder="Andika ikibazo..."
+           aria-label="Andika ikibazo" required>
+    <button type="submit">Ohereza</button>
+  </form>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const form = document.getElementById("form");
+    const input = document.getElementById("question");
+
+    function addMessage(text, who) {
+      const div = document.createElement("div");
+      div.className = "msg " + who;
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function answer(question) {
+      const q = question.toLowerCase();
+
+      if (q.includes("buruse") || q.includes("scholarship")) {
+        return "Kugira ngo ushake buruse, banza urebe amatangazo "
+          + "yemewe y'Inama Nkuru y'Amashuri Makuru (HEC). "
+          + "Reba ibisabwa n'itariki ntarengwa ku rubuga rwabo:\n"
+          + "https://www.hec.gov.rw/updates/scholarships";
+      }
+
+      if (q.includes("irembo") ||
+          q.includes("serivisi") ||
+          q.includes("icyemezo") ||
+          q.includes("indangamuntu")) {
+        return "Kugira ngo ubone amabwiriza ya serivisi za Leta, "
+          + "sura ubufasha bwa IremboGov:\n"
+          + "https://support.new.irembo.gov.rw/en/support/home\n"
+          + "Reba ibisabwa bigezweho mbere yo gusaba serivisi.";
+      }
+
+      if (q.includes("ubutekamutwe") ||
+          q.includes("scam") ||
+          q.includes("amafaranga")) {
+        return "Witonde: ntukohereze amafaranga cyangwa amakuru "
+          + "bwite kubera ubutumwa utizeye. Banza ugenzure "
+          + "uwagutumye ukoresheje urubuga cyangwa nimero "
+          + "yemewe. Niba udashidikanya, saba ubufasha.";
+      }
+
+      if (q.includes("muraho") || q.includes("hello")) {
+        return "Muraho neza! Ndashobora kugufasha gushaka "
+          + "amakuru ya buruse, serivisi za Leta n'ubwirinzi "
+          + "ku butekamutwe. Andika ikibazo cyawe.";
+      }
+
+      return "Mbabarira, sindafite igisubizo cyizewe kuri icyo "
+        + "kibazo. Gerageza kubaza mu bundi buryo cyangwa "
+        + "urebe urubuga rwa Leta: https://www.gov.rw/";
+    }
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const question = input.value.trim();
+      if (!question) return;
+
+      addMessage(question, "user");
+      addMessage(answer(question), "bot");
+      input.value = "";
+      input.focus();
+    });
+  </script>
+</body>
+</html>
